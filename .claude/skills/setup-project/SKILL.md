@@ -41,6 +41,7 @@ Collect in at most two rounds:
   1. Push and protect `main` (require the CI and E2E checks) — GitHub → Settings → Branches.
   2. Add the `ANTHROPIC_API_KEY` secret for persona reviews — run `/install-github-app` from Claude Code, or Settings → Secrets.
   3. Invite the CODEOWNERS teams.
+- **Register it on the hub:** tell the user to run **`/register-on-progixhub`** to create this project on progixHub and push its specs + product docs (and optionally env) via the MCP — so the central hub tracks it from day one. (Requires the progixHub MCP connected; the skill explains how.)
 - Close with: the project is ready for its first feature — run `/create-spec <idea>`.
 
 Why this skill exists: a clone that skips these steps leaves agents grounding on placeholder product docs and skeleton branding — every future session inherits that confusion. Fifteen minutes here buys correctness for the life of the project.
