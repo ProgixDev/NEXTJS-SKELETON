@@ -2,7 +2,7 @@
 name: daily-report
 description: Write today's daily report in FRENCH, organized by project, under docs/reports/daily/. Use when the user says "daily report", "rapport quotidien", "standup", "what did I do today/yesterday", or wants a log of what changed. Built so nothing gets forgotten.
 argument-hint: [optional date YYYY-MM-DD, default today]
-allowed-tools: Read, Write, Glob, Grep, Bash(git log*), Bash(git diff*), Bash(git status*), Bash(date*)
+allowed-tools: Read, Write, Glob, Grep, Bash(git log*), Bash(git diff*), Bash(git status*), Bash(date*), Bash(cat .progixhub.json*), mcp__progixhub__post_daily_report
 ---
 
 ## Contexte (collecté avant lecture)
@@ -33,3 +33,17 @@ Pour le projet courant, à partir du contexte git ci-dessus (ne jamais inventer 
 Règles : si le fichier du jour existe déjà, mets à jour seulement la partie du projet courant (garde
 les autres). Court et honnête, lisible en moins d'une minute. Écris le fichier puis **renvoie
 seulement le chemin + 3 puces de résumé** (ne recopie pas tout le rapport dans le chat).
+
+## Pousser le rapport vers progixHub (si le projet est lié)
+
+Après avoir écrit le fichier, si **`.progixhub.json`** existe à la racine (le projet a été lié via
+`/register-on-progixhub`) **et** que l'outil MCP `post_daily_report` est disponible :
+
+1. Lis `projectId` dans `.progixhub.json`.
+2. Appelle **`post_daily_report`** avec `{ projectId, content_md }` où `content_md` est la section
+   Markdown du **projet courant** que tu viens d'écrire (Travail effectué / En cours / Blocages /
+   Message client). C'est le même rapport, poussé sur le hub pour que le PM le lise sans ouvrir le repo.
+3. Confirme en une ligne : « rapport poussé sur hub.progix.pro/projects/<id> ».
+
+Si `.progixhub.json` est absent ou l'outil MCP indisponible, ne fais rien de plus — le fichier local
+suffit. Ne pousse jamais sans le `projectId` du fichier de lien.
